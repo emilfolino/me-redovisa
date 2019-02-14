@@ -10,9 +10,7 @@ chai.should();
 
 //const db = require("../../../db/database.js");
 var path = require("path");
-const db = require(path.resolve(__dirname, '../../../db/database.js'));
-
-console.log(db);
+const db = require('../../../db/database.js');
 
 chai.use(chaiHttp);
 
@@ -28,55 +26,6 @@ function makeid() {
 
 
 describe('Register and login user in before', function() {
-    before(done => {
-        setTimeout(() => {
-            console.log(`First 'before'`);
-            db.run("DROP TABLE IF EXISTS users", (err) => {
-                if (err) {
-                    console.log("Could not DROP test DB users", err.message);
-                }
-                console.log("In before (drop users)- register");
-            });
-            done(); //Will be called last
-        }, 1000);
-    });
-
-    before(done => {
-        setTimeout(() => {
-            console.log(`Second 'before'`);
-            const sql = "CREATE TABLE IF NOT EXISTS users" +
-                "(email VARCHAR(255)" +
-                " NOT NULL, password VARCHAR(60) NOT NULL, " +
-                "UNIQUE(email));";
-
-            db.run(sql, (err) => {
-                if (err) {
-                    console.log("Could not create test DB users", err);
-                }
-                console.log("In before (create users)- register");
-            });
-            done();
-        }, 300);
-    });
-
-    before(done => {
-        setTimeout(() => {
-            console.log(`Third 'before'`);
-            const sql2 = 'INSERT INTO users (email, password)' +
-                ' VALUES ("test@example.com", "123test");';
-
-            db.run(sql2, (err) => {
-                if (err) {
-                    console.log("Could not insert test DB users", err);
-                }
-                console.log("In before (insert users)- register");
-            });
-            done();
-        }, 100);
-    });
-
-
-
     describe('POST /register', () => {
         it('1. should get 401 as we do not provide valid password', (done) => {
             let user = {
